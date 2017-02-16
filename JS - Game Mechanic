@@ -65,11 +65,11 @@ function enemy(){
         
         
          
-       enemy_directions.create_array();
+       ENEMY.create_array();
         
     }
 
-var enemy_directions = {
+var ENEMY = {
     
     
     
@@ -97,48 +97,42 @@ var enemy_directions = {
             
             this.speed.push(80)
         }
-    }
-    
-}
- 
-    
-function enemy_movement(FromCHildren,Tochildren,speed,fromPos,toPos){
+    },
     
     
     
-    
-    
-    
+    enemy_movement: function(FromCHildren,Tochildren,speed,fromPos,toPos){
+        
         for(var i =FromCHildren;i<Tochildren;i++){
             
             
                 
-        if(enemy_directions.status[i] == true){
+        if(this.status[i] == true){
             
             
             if(enemies.children[i].position.x >toPos){
-                enemy_directions.speed[i] =- speed;
-                enemy_directions.status[i] = false;
-                enemy_directions.status2[i] = true;
+                this.speed[i] =- speed;
+                this.status[i] = false;
+                this.status2[i] = true;
             }
             
             
         }
             
             // if V enemy > 0 [on right]  else [on left] = animation
-            if(enemy_directions.speed[i] >0){
+            if(this.speed[i] >0){
                 enemies.children[i].animations.play('right');
                 enemies.children[i].animations.play('right');
             }
             else{enemies.children[i].animations.play('left');}
             
             
-        if(enemy_directions.status2[i]  == true){
+        if(this.status2[i]  == true){
             
             if(enemies.children[i].position.x<fromPos){
-                enemy_directions.speed[i] =speed;
-                enemy_directions.status[i] = true;
-                enemy_directions.status2[i] = false;
+                this.speed[i] =speed;
+                this.status[i] = true;
+                this.status2[i] = false;
 
 
 
@@ -149,11 +143,67 @@ function enemy_movement(FromCHildren,Tochildren,speed,fromPos,toPos){
         }
             
         
-            enemies.children[i].body.velocity.x = enemy_directions.speed[i];     
+            enemies.children[i].body.velocity.x = this.speed[i];     
         }
             
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    }
     
-            }
+    
+    
+    
+    
+    
+    
+    
+    
+}
+ 
     
 
     
@@ -213,8 +263,9 @@ var PLATFORMS = {
     
     
      platforms :null,
-   
     
+     speed: [60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60], // od 0 do 17 //czyli 18
+   
     
     
     
@@ -227,15 +278,24 @@ var PLATFORMS = {
         this.platforms.enableBody = true;
     },
       
-    movePlatform: function(index){
+    movePlatform: function(index,FROM,TO,speed){
     
     
-        this.platforms.children[index].body.velocity.x = 60;
+        this.platforms.children[index].body.velocity.x = this.speed[index];
         
-        if(this.platforms.children[index].body.position.x >2600){
+        if(this.platforms.children[index].body.position.x >TO){
+                this.speed[index] = -speed;
 
-                this.platforms.children[index].body.velocity.x = -120;
         }
+        if(this.platforms.children[index].body.position.x <FROM){
+                this.speed[index] = -speed;
+
+        }
+        
+        
+        
+        
+        
 },
     // Game Elements to set up on scene
     // Here we create the ground.
@@ -322,6 +382,97 @@ function STAR(){
 }
 
 
+
+function GameColision(){
+     game.physics.arcade.collide(stars, PLATFORMS.platforms);
+    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
+    game.physics.arcade.overlap(player, stars, collectStar, null, this);
+
+    game.physics.arcade.collide(enemies,PLATFORMS.platforms);    
+    game.physics.arcade.overlap(player,enemies,enemiesHit,null,this);
+    
+    
+    
+    
+        function collectStar (player, star) {
+    
+    // Removes the star from the screen
+    var snd = game.add.audio('coin');
+    snd.play();
+    star.kill();
+    
+        
+        
+        // mozna uzyc star velocity a wiec moge zrobic, ze to sa enemy i trza zrobic //tabice directionX która bedzie przechowywac kierunek  enemy do kazdego osobna //wiec petla ,for któa ustala wartosc do kazdego potem enemy_monement któy //tablica wszystkie przesuwa, ale wczesniej sprawdza kolizje kazdej i jezeli //zkolidowala z jakas to ,tej zmienia velocity;
+        
+    score += 10;
+    scoreText.text = 'Score: ' + score;
+
+
+
+    
+    }
+    
+    
+    
+    
+    
+    
+    
+          function enemiesHit(player,enemies){
+           if(player.position.y < enemies.body.position.y){
+               
+                enemies.kill();
+
+           }
+           else{
+               
+               
+               player.kill();
+               var snd = game.add.audio('hit');
+               snd.play();
+           }
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+
+
+
+
+var GameInterface = {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}
+
+
 //CO TRZEBA ZROBIĆ:
 
 
@@ -361,6 +512,9 @@ obj.set_platform(X,Y,hight,width scale itd......'graphics, chosen);
 
 
 */
+
+
+
 
 
 
