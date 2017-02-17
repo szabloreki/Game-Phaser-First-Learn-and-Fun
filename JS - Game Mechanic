@@ -259,18 +259,8 @@ function player_movement(){
     
 
 var PLATFORMS = {
-    
-    
-    
      platforms :null,
-    
-     speed: [60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60], // od 0 do 17 //czyli 18
-   
-    
-    
-    
-    
-    
+     
     createPlatform: function(){
         
         this.platforms = game.add.group();
@@ -278,25 +268,43 @@ var PLATFORMS = {
         this.platforms.enableBody = true;
     },
       
-    movePlatform: function(index,FROM,TO,speed){
+      
+    move: {
+     speedX:[60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60],
+     speedY:[60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60],// od 0 do 17 //czyli 18
+   
+    
+    	that: this,
+    
+     X: function(index,FROM,TO,speed){
     
     
-        this.platforms.children[index].body.velocity.x = this.speed[index];
+        that.platforms.children[index].body.velocity.x = this.speedX[index];
         
-        if(this.platforms.children[index].body.position.x >TO){
-                this.speed[index] = -speed;
+        if(that.platforms.children[index].body.position.x >TO){
+                this.speedX[index] = -speed;
 
         }
-        if(this.platforms.children[index].body.position.x <FROM){
-                this.speed[index] = -speed;
+        if(that.platforms.children[index].body.position.x <FROM){
+                this.speedX[index] = -speed;
+        }
+    },
+    
+    Y: function(index,FROM,TO,speed){
+    
+    
+        that.platforms.children[index].body.velocity.y = this.speedY[index];
+        
+        if(that.platforms.children[index].body.position.y >TO){
+                this.speedY[index] = -speed;
 
         }
-        
-        
-        
-        
-        
-},
+        if(that.platforms.children[index].body.position.y <FROM){
+                this.speedY[index] = -speed;
+        }
+    }
+      
+	},
     // Game Elements to set up on scene
     // Here we create the ground.
         set_platform: function(getFromX,getFromY,scaleWidth,scaleHeight){
@@ -512,7 +520,6 @@ obj.set_platform(X,Y,hight,width scale itd......'graphics, chosen);
 
 
 */
-
 
 
 
